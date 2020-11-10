@@ -1,0 +1,132 @@
+Project Đánh giá:
+
+I. Danh sách các bảng:
+1. Nhân viên: employee
+- employee_id
+- employee_name
+- employee_code
+- genner
+- birth_day
+- created_date
+- created_by
+- updated_date
+- updated_by
+2. Kỳ đánh giá: assessment_period
+- assessment_period_id
+- assessment_period_name
+- effective_date
+- expired_date
+- promulgate
+- assessment_fomular_id
+- created_date
+- created_by
+- updated_date
+- updated_by
+3. Cấp đánh giá: assessment_level
+- assessment_level_id
+- assessment_period_id
+- assessment_level_name
+- asssessment_level_order
+- created_date
+- created_by
+- updated_date
+- updated_by
+4. Công thức đánh giá: assessment_fomular
+- assessment_fomular_id
+- assessment_fomular_name
+- assessment_fomular_content
+- created_date
+- created_by
+- updated_date
+- updated_by
+5. Nhóm tiêu chí: assessment_criteria_group
+- assessment_criteria_group_id
+- assessment_criteria_group_name
+- created_date
+- created_by
+- updated_date
+- updated_by
+6. Tiêu chí: assessment_criteria
+- assessment_criteria_id
+- assessment_criteria_name
+- default_score
+- min_score
+- max_score
+- assessment_criteria_type
+- assessment_criteria_content
+- created_date
+- created_by
+- updated_date
+- updated_by
+7. Cấp đánh giá mapping với nhân viên được đánh giá: assessment_level_mapping_employee
+- assessment_level_mapping_employee_id
+- assessment_level_id
+- employee_id
+- created_date
+- created_by
+- updated_date
+- updated_by
+8. Cấp đánh giá mapping với nhân viên được đánh giá mapping với nhân viên đi đánh giá: assessment_level_mapping_has_employee
+- assessment_level_mapping_has_employee_id
+- assessment_level_mapping_employee_id
+- employee_id
+- created_date
+- created_by
+- updated_date
+- updated_by
+9. Cấp đánh giá mapping với nhóm tiêu chí: assessment_level_mapping_criteria_group
+- assessment_level_mapping_criteria_group_id
+- assessment_level_id
+- assessment_criteria_group_id
+- isDisplay
+- created_date
+- created_by
+- updated_date
+- updated_by
+10. Cấp đánh giá mapping với nhóm tiêu chí mapping với tiêu chí: assessment_level_mapping_criteria
+- assessment_level_mapping_criteria_id
+- assessment_level_mapping_criteria_group_id
+- assessment_criteria_id
+- isDisplay
+- created_date
+- created_by
+- updated_date
+- updated_by
+11. Công thức đánh giá mapping với nhóm tiêu chí: assessment_fomular_mapping_criteria_group
+- assessment_fomular_mapping_criteria_group_id
+- assessment_fomular_id
+- assessment_criteria_group_id
+- isDisplay
+- created_date
+- created_by
+- updated_date
+- updated_by
+12. Công thức đánh giá mapping với nhóm tiêu chí mapping với tiêu chí: assessment_fomular_mapping_criteria
+- assessment_fomular_mapping_criteria_id
+- assessment_fomular_mapping_criteria_group_id
+- assessment_fomular_id
+- isDisplay
+- created_date
+- created_by
+- updated_date
+- updated_by
+13. Đánh giá: assessment_result
+- assessment_result_id
+- assessment_period_id
+- employee_id
+- evaluating_level
+- assessment_result_content
+- assessment_result_score
+- assessment_result_rated
+- created_date
+- created_by
+- updated_date
+- updated_by
+II. Phân tích mối quan hệ:
+1. Một kỳ đánh giá sẽ có nhiều cấp đánh giá, có một công thức đánh giá.
+2. Một cấp đánh giá có nhiều cán bộ phụ trách đánh giá, có nhiều nhóm tiêu chí, đánh giá cho một cán bộ.
+3. Một công thức đánh giá sẽ được cấu hình nhiều nhóm tiêu chí.
+4. Một nhóm tiêu chí sẽ được cấu hình nhiều tiêu chí.
+5. Cán bộ tạo sẽ được ban hành.
+III. Vấn dề trao thưởng tuyên dương hàng năm, hàng tháng:
+- Dựa trên dữ liệu đánh giá hàng tuần, tháng, quý, năm -> suggest ra những các bộ đủ yêu cầu. (dùng thuật toán AI).

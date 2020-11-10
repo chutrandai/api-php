@@ -31,11 +31,11 @@
         setcookie($cookie_name, $username, time() + (60*60), "/");
         $sql = 'SELECT 
                   employee_code AS userName,
-                  password AS passWord
+                  passwords AS passWords
                 FROM `employee` 
                 WHERE 1 = 1
                   AND employee_code =\''.$username.'\''.
-                  'AND password =\''.$password.'\'';
+                  'AND passwords =\''.$password.'\'';
         $this->result = $this->dbConnect->query($sql);
         // Mysql_num_row is counting table row
         $count=$this->result->num_rows;
@@ -43,7 +43,9 @@
           session_start();
           $_SESSION['loggedin'] = true;
           $_SESSION['username'] = $username;
-          $this->dbReference->sendResponse(200,'{"items":'.json_encode($count).'}');
+          $dataResponse = new stdClass();
+          $dataResponse->items = $count;
+          $this->dbReference->sendResponse(200, $dataResponse);
         } else {
           $this->dbReference->sendResponse(404,'{"items":null}');
         }

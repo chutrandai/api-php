@@ -1,7 +1,7 @@
 <?php
 require_once './systemConfig.php';
  
-class criteriaDAO { 
+class criteriaDAO {
   private $dbReference;
   var $dbConnect;
   var $result;
@@ -19,7 +19,15 @@ class criteriaDAO {
     $this->_page = $page;
     // $criteriaName = $_GET['criteriaName'];
     // $score = $_GET['score'];
-    $sql = ' SELECT * FROM criteria cri ';
+    $sql = ' SELECT 
+              cri.assessment_criteria_id AS assessmentCriteriaId,
+              cri.assessment_criteria_name AS assessmentCriteriaName,
+              cri.default_score AS defaultScore,
+              cri.min_score AS minScore,
+              cri.max_score AS maxScore,
+              cri.assessment_criteria_type AS assessmentCriteriaType,
+              cri.assessment_criteria_content AS assessmentCriteriaContent
+             FROM assessment_criteria cri ';
     $condition = ' WHERE 1 = 1';
     // filter
     if(isset($_GET['criteriaName'])) {
@@ -42,25 +50,34 @@ class criteriaDAO {
       $result->limit = $this->_limit;
       $result->total = $this->_total;
       $result->data = $resultSet;
-      $this->dbReference->sendResponse(200,'{"items":'.json_encode($result).'}');
+      $dataResponse = new stdClass();
+      $dataResponse->assessmentCriterias = $result;
+      $this->dbReference->sendResponse(200, $dataResponse);
     } else {
       $this->dbReference->sendResponse(200,'{"items":null}');
     }
   }
 
-  public function createCriteria($criteriaName, $minScore, $maxScore) {
-    $sqlInsert = 'INSERT INTO `criteria` (`criteria-name`, `min-score`, `max-score`)
-       VALUES (\''.$criteriaName.'\','. $minScore .' ,'. $maxScore .')';
+  public function createCriteria($assessmentCriteriaName, $defaultScore, $minScore, $maxScore,
+            $assessmentCriteriaType, $assessmentCriteriaContent) {
+    $sqlInsert = 'INSERT INTO `criteria` (`assessment_criteria_name`, `default_score`, `min_score`, `max_score`,
+      `assessment_criteria_type`, `assessment_criteria_content`)
+       VALUES (\''.$assessmentCriteriaName.'\','. $defaultScore .' ,'. $minScore .' ,'.
+       $maxScore .' ,'. $assessmentCriteriaType .' ,'. $assessmentCriteriaContent .')';
     $this->result = $this->dbConnect->query($sqlInsert);
-    $this->dbReference->sendResponse(200,'{"items":'.json_encode($result).'}');
+    $this->dbReference->sendResponse(200,'{"items":'.json_encode($this->result).'}');
   }
 
-  public function updateCriteria($criteriaId, $criteriaName, $minScore, $maxScore) {
+  public function updateCriteria($assessmentCriteriaId, $assessmentCriteriaName, $defaultScore, $minScore, $maxScore,
+            $assessmentCriteriaType, $assessmentCriteriaContent) {
     $sqlUpdate = 'UPDATE `criteria` 
-        SET `criteria-name` = \''. $criteriaName .'\'
-      , SET `min-score` = '. $minScore .'
-      , SET `max-score` = '. $maxScore .'
-      WHERE criteria-id = '.$criteriaId;
+        SET `assessment_criteria_name` = \''. $assessmentCriteriaName .'\'
+      , SET `default_score` = '. $defaultScore .'
+      , SET `min_score` = '. $minScore .'
+      , SET `max_score` = '. $maxScore .'
+      , SET `assessment_criteria_type` = '. $assessmentCriteriaType .'
+      , SET `assessment_criteria_content` = '. $assessmentCriteriaContent .'
+      WHERE assessment_criteria_id = '.$assessmentCriteriaId;
     $this->result = $this->dbConnect->query($sqlUpdate);
     $this->dbReference->sendResponse(200,'{"items":'.json_encode($result).'}');
   }

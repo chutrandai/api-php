@@ -5,6 +5,6 @@
         unset($_SESSION["username"]);
         unset($_COOKIE['user']);
         // header("Location:login.php");
-        echo 'Success!';
+        echo '{ "status": ' . json_encode(200) . ','.'"data": '. json_encode(null) . '}';
     }
 ?>

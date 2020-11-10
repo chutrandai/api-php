@@ -1,8 +1,9 @@
 <?php
+require_once './symetricCtyptor.php';
 $host = "localhost";
 $user = "root";
 $password = "";
-$database = "assessment";
+$database = "db_assessment";
 
 class systemConfig {
   var $dbConnect;
@@ -15,7 +16,7 @@ class systemConfig {
   }
   
   function connectDB(){
-    $this->dbConnect = new mysqli("localhost", "root", "", "assessment");
+    $this->dbConnect = new mysqli("localhost", "root", "", "db_assessment");
     if($this->dbConnect->connect_errno) {
       return null; 
     } else {
@@ -74,7 +75,12 @@ class systemConfig {
     $status_header = 'HTTP/1.1 ' . $status . ' ' . $this->getStatusCodeMeeage($status);
     header($status_header);
     header('Content-type: ' . $content_type);
-    echo $body;
+    $dataResponse = new stdClass();
+    $dataResponse->status = $status;
+    // $dataResponse->data = enCryptionData(json_encode($body));
+    $dataResponse->data = $body;
+    echo json_encode($dataResponse);
+    // echo deCryptionData(enCryptionData(json_encode($body)));
   }
 }
 ?>
